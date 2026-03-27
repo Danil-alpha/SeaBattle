@@ -1,11 +1,12 @@
 from random import randint
 from BattleMaster import *
-
+from Field import *
 
 class HitState(Enum):
     MISS = 0
     CRUSHED = 1
     HIT = 2
+    ERR = 3
 
 
 class HitMaker:
@@ -28,6 +29,11 @@ class HitMaker:
                 return HitState.CRUSHED
             else:
                 return HitState.HIT
+        elif field[x][y].state == CellState.HIT:
+            return HitState.ERR
+        else:
+            if field[x][y].state not in (CellState.HIT, CellState.MISS):
+                field[x][y].state = CellState.MISS
         return HitState.MISS
 
     def randomHit(self, field: Field):

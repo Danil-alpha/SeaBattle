@@ -17,7 +17,7 @@ class ShipPlacer:
                     field[x][y].state = CellState.BUFFER
 
     def checkNumberOfShips(self, x1, y1, x2, y2):
-        length = max(abs(x1 - x2), abs(y1 - y2))
+        length = max(abs(x1 - x2), abs(y1 - y2)) + 1
         if self.countShips[length] == 0:
             return False
         self.countShips[length] -= 1
@@ -31,6 +31,8 @@ class ShipPlacer:
         if (x1 != x2 and y1 != y2 or not (0 <= x1 < 10)
                 or not (0 <= x2 < 10) or not (0 <= y1 < 10) or not (0 <= y2 < 10)):
             return False
+        if not self.isEmpty(field, x1, y1, x2, y2):
+            return False
         if not self.checkNumberOfShips(x1, y1, x2, y2):
             return False
         coord = []
@@ -38,7 +40,7 @@ class ShipPlacer:
             for y in range(min(y1, y2), max(y1, y2) + 1):
                 field[x][y].state = CellState.SHIP
                 coord.append((x, y))
-        self.setBufferAroundShip(field, x1, x2, y1, y2)
+        self.setBufferAroundShip(field, x1, y1, x2, y2)
         field.addBoard(coord)
         return True
 
@@ -47,6 +49,7 @@ class ShipPlacer:
             while self.countShips[i] != 0:
                 self.autoSetBoard(field, i)
                 self.countShips[i] -= 1
+        self.countShips = {1: 4, 2: 3, 3: 2, 4: 1}
 
     def isEmpty(self, field, x1: int, y1: int, x2: int, y2: int):
         for x in range(min(x1, x2), max(x1, x2) + 1):
