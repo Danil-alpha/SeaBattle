@@ -18,6 +18,7 @@ class ShipPlacer:
 
     def checkNumberOfShips(self, x1, y1, x2, y2):
         length = max(abs(x1 - x2), abs(y1 - y2)) + 1
+
         if self.countShips[length] == 0:
             return False
         self.countShips[length] -= 1
@@ -31,9 +32,11 @@ class ShipPlacer:
         if (x1 != x2 and y1 != y2 or not (0 <= x1 < 10)
                 or not (0 <= x2 < 10) or not (0 <= y1 < 10) or not (0 <= y2 < 10)):
             return False
-        if not self.isEmpty(field, x1, y1, x2, y2):
+        elif not self.isEmpty(field, x1, y1, x2, y2):
             return False
-        if not self.checkNumberOfShips(x1, y1, x2, y2):
+        elif not self.checkNumberOfShips(x1, y1, x2, y2):
+            return False
+        elif max(abs(x1 - x2), abs(y1 - y2)) + 1 > 4:
             return False
         coord = []
         for x in range(min(x1, x2), max(x1, x2) + 1):
