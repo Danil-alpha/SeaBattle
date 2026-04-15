@@ -2,14 +2,16 @@ from SetBoard import *
 from Field import *
 from HitMaker import *
 
-
 class BattleMaster:
-    def __init__(self):
-        self.player_1 = Field()
-        self.Bot_player = Field()
-        self.shipPlacer = ShipPlacer()
-        self.botPlacer = ShipPlacer()
+    def __init__(self, width=10, height=10, ship_counts=None, bot_type="smart"):
+        self.player_1 = Field(width, height)
+        self.Bot_player = Field(width, height)
+        self.shipPlacer = ShipPlacer(width, height, ship_counts)
+        self.botPlacer = ShipPlacer(width, height, ship_counts)
         self.hitMaker = HitMaker()
+        self.bot_type = bot_type
+        if self.bot_type == "smart":
+            self.hitMaker.initBotAI(self.player_1)
 
     def start(self):
         self.botPlacer.autoSetBoards(self.Bot_player)
@@ -26,7 +28,10 @@ class BattleMaster:
         return self.hitMaker.hit(self.Bot_player, x, y)
 
     def botAttack(self) -> HitState:
-        return self.hitMaker.randomHit(self.player_1)
+        if self.bot_type == "smart":
+            return self.hitMaker.smartHit(self.player_1)
+        else:
+            return self.hitMaker.randomHit(self.player_1)
 
     def fieldIsFilled(self):
         arr = self.howShips()

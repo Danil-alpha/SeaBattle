@@ -1,13 +1,11 @@
 from enum import Enum
 
-
 class CellState(Enum):
     EMPTY = "~"
     SHIP = "S"
     BUFFER = "-"
     HIT = "X"
     MISS = "•"
-
 
 class Cell:
     def __init__(self, x, y):
@@ -16,8 +14,7 @@ class Cell:
         self.state = CellState.EMPTY
 
     def __str__(self):
-        return self.state
-
+        return self.state.value
 
 class Ship:
     def __init__(self, coordinate: list):
@@ -36,19 +33,19 @@ class Ship:
     def is_crushed(self):
         return len(self.coordinate) == self.hits
 
-
 class Field:
-    SIZE = 10
-
-    def __init__(self):
-        self.field = [[Cell(x, y) for x in range(self.SIZE)] for y in range(self.SIZE)]
+    def __init__(self, width=10, height=10):
+        self.width = width
+        self.height = height
+        # поле: [y][x] — y строка, x столбец
+        self.field = [[Cell(x, y) for x in range(self.width)] for y in range(self.height)]
         self.boards = []
 
     def __getitem__(self, y: int):
         return self.field[y]
 
     def checkCell(self, x: int, y: int) -> Cell:
-        return self.field[x][y]
+        return self.field[y][x]
 
     def addBoard(self, coord: list):
         self.boards.append(Ship(coord))
@@ -60,12 +57,18 @@ class Field:
                 return ship
         return None
 
+    def _col_letter(self, idx):
+        if self.width <= 26:
+            return chr(ord('A') + idx)
+        else:
+            return str(idx + 1)
+
     def vragField(self) -> str:
-        letters = "   A B C D E F G H I J"
-        result = letters + "\n"
-        for y in range(10):
-            line = f"{y+1}"
-            for x in range(10):
+        header = "   " + " ".join(self._col_letter(i) for i in range(self.width))
+        result = header + "\n"
+        for y in range(self.height):
+            line = f"{y+1:2}"
+            for x in range(self.width):
                 state = self.field[y][x].state
                 if state == CellState.HIT:
                     line += "❌"
@@ -77,11 +80,11 @@ class Field:
         return result
 
     def __str__(self) -> str:
-        letters = "   A B C D E F G H I J"
-        result = letters + "\n"
-        for y in range(10):
-            line = f"{y + 1}"
-            for x in range(10):
+        header = "   " + " ".join(self._col_letter(i) for i in range(self.width))
+        result = header + "\n"
+        for y in range(self.height):
+            line = f"{y+1:2}"
+            for x in range(self.width):
                 state = self.field[y][x].state
                 if state == CellState.SHIP:
                     line += "🚢"
