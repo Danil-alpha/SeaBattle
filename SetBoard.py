@@ -1,6 +1,7 @@
 import re
 from BattleMaster import *
 
+
 class SeaBattle:
     def __init__(self):
         self.width = 10
@@ -131,7 +132,8 @@ class SeaBattle:
         if user_input == "/start":
             if self.game_started:
                 return "Игра уже начата. Используй /cmf, /cof, /hs или стреляй."
-            self.bm = BattleMaster(width=self.width, height=self.height, ship_counts=self.ship_counts, bot_type=self.bot_type)
+            self.bm = BattleMaster(width=self.width, height=self.height, ship_counts=self.ship_counts,
+                                   bot_type=self.bot_type)
             self.bm.start()
             self.game_started = True
             return f"Игра началась на поле {self.width}x{self.height}!\nВводи координаты, куда хочешь поставить корабль (например, 'a1' или 'a1 a4'):"
@@ -139,7 +141,8 @@ class SeaBattle:
         elif user_input == "/auto_set":
             if self.game_started:
                 return "Игра уже начата, автоматическая расстановка невозможна."
-            self.bm = BattleMaster(width=self.width, height=self.height, ship_counts=self.ship_counts, bot_type=self.bot_type)
+            self.bm = BattleMaster(width=self.width, height=self.height, ship_counts=self.ship_counts,
+                                   bot_type=self.bot_type)
             self.bm.start()  # расставляет бота
             self.bm.shipPlacer.autoSetBoards(self.bm.player_1)
             self.game_started = True

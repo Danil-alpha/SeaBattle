@@ -1,11 +1,13 @@
 from enum import Enum
 
+
 class CellState(Enum):
     EMPTY = "~"
     SHIP = "S"
     BUFFER = "-"
     HIT = "X"
     MISS = "•"
+
 
 class Cell:
     def __init__(self, x, y):
@@ -15,6 +17,7 @@ class Cell:
 
     def __str__(self):
         return self.state.value
+
 
 class Ship:
     def __init__(self, coordinate: list):
@@ -32,6 +35,7 @@ class Ship:
 
     def is_crushed(self):
         return len(self.coordinate) == self.hits
+
 
 class Field:
     def __init__(self, width=10, height=10):
@@ -67,7 +71,7 @@ class Field:
         header = "   " + " ".join(self._col_letter(i) for i in range(self.width))
         result = header + "\n"
         for y in range(self.height):
-            line = f"{y+1:2}"
+            line = f"{y + 1:2}"
             for x in range(self.width):
                 state = self.field[y][x].state
                 if state == CellState.HIT:
@@ -83,7 +87,7 @@ class Field:
         header = "   " + " ".join(self._col_letter(i) for i in range(self.width))
         result = header + "\n"
         for y in range(self.height):
-            line = f"{y+1:2}"
+            line = f"{y + 1:2}"
             for x in range(self.width):
                 state = self.field[y][x].state
                 if state == CellState.SHIP:

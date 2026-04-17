@@ -2,6 +2,7 @@ from SetBoard import *
 from Field import *
 from HitMaker import *
 
+
 class BattleMaster:
     def __init__(self, width=10, height=10, ship_counts=None, bot_type="smart"):
         self.player_1 = Field(width, height)

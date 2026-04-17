@@ -2,11 +2,13 @@ from random import randint, choice, shuffle
 from Field import *
 from enum import Enum
 
+
 class HitState(Enum):
     MISS = 0
     CRUSHED = 1
     HIT = 2
     ERR = 3
+
 
 class BotAI:
     def __init__(self, field: Field):
@@ -48,7 +50,7 @@ class BotAI:
             self.last_hit = None
 
     def _addAdjacentTargets(self, x, y):
-        directions = [(-1,0), (1,0), (0,-1), (0,1)]
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         shuffle(directions)
         for dx, dy in directions:
             nx, ny = x + dx, y + dy
@@ -56,6 +58,7 @@ class BotAI:
                 cell = self.field[ny][nx]
                 if cell.state not in (CellState.HIT, CellState.MISS):
                     self.target_queue.append((nx, ny))
+
 
 class HitMaker:
     def __init__(self):

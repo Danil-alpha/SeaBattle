@@ -1,6 +1,7 @@
 import re
 from BattleMaster import *
 
+
 class SeaBattle:
     def __init__(self):
         self.width = 10
